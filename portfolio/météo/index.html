@@ -3,23 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Météo Avancée (Projet École)</title>
+    <title>Météo</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <a href="../index.html" style="position: fixed; top: 20px; left: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: bold; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">← Accueil</a>
+    <a href="../index.html" class="back-button">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Accueil
+    </a>
 
     <div id="app-container" class="app-container">
-        <h1>☀️ Météo Avancée</h1>
+        <div class="header">
+            <h1>Météo</h1>
+            <p class="subtitle">Restez informé des conditions météorologiques</p>
+        </div>
 
         <div class="tabs">
-            <button id="tab-search" class="active">Recherche par Ville</button>
-            <button id="tab-geo">Météo Actuelle & 5 Jours</button>
+            <button id="tab-search" class="tab-btn active">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+                    <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                Recherche
+            </button>
+            <button id="tab-geo" class="tab-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" stroke-width="2" fill="none"/>
+                    <circle cx="12" cy="9" r="2.5" fill="currentColor"/>
+                </svg>
+                Ma position
+            </button>
         </div>
 
         <div id="view-search">
             <div class="search-box">
+                <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+                    <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
                 <input type="text" id="city-input" placeholder="Entrez une ville...">
                 <button id="search-button">Rechercher</button>
             </div>
@@ -27,32 +51,48 @@
             <p id="error-message-search" class="error-message"></p>
 
             <div id="weather-result-search" class="result-card hidden">
-                <h2 id="city-name-search"></h2>
-                <img id="weather-icon-search" src="" alt="Icône météo">
-                <p id="temperature-search" class="temperature"></p>
-                <p id="description-search" class="description"></p>
+                <div class="weather-main">
+                    <img id="weather-icon-search" src="" alt="Icône météo">
+                    <div class="weather-info">
+                        <h2 id="city-name-search"></h2>
+                        <p id="temperature-search" class="temperature"></p>
+                        <p id="description-search" class="description"></p>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div id="view-geo" class="hidden">
-            <p id="loading-message">Chargement de la météo...</p>
+            <div class="loading-container">
+                <div id="loading-spinner" class="spinner hidden"></div>
+                <p id="loading-message"></p>
+            </div>
             <p id="error-message-geo" class="error-message"></p>
 
-            <h2 id="geo-city-name"></h2>
-            
             <div id="current-weather-geo" class="result-card hidden">
-                <img id="weather-icon-geo" src="" alt="Icône météo">
-                <p id="temperature-geo" class="temperature"></p>
-                <p id="description-geo" class="description"></p>
+                <h2 id="geo-city-name"></h2>
+                <div class="weather-main">
+                    <img id="weather-icon-geo" src="" alt="Icône météo">
+                    <div class="weather-info">
+                        <p id="temperature-geo" class="temperature"></p>
+                        <p id="description-geo" class="description"></p>
+                    </div>
+                </div>
             </div>
 
-            <h3 id="forecast-title" class="hidden">Prévisions à 5 Jours (12h00)</h3>
-            <div id="forecast-5-days" class="forecast-grid">
-                </div>
+            <div id="forecast-section" class="hidden">
+                <h3 id="forecast-title">Prévisions 5 jours</h3>
+                <div id="forecast-5-days" class="forecast-grid"></div>
+            </div>
         </div>
-        <p class="explanation-note">
-                **Note sur l'Indice de Confiance :** Cet indice est **simulé** pour les besoins du projet. Il est calculé en fonction de la **Probabilité de Précipitation (PoP)** fournie par l'API : plus le risque de pluie est élevé, plus l'indice est jugé "Moyen" ou "Faible", traduisant l'incertitude sur la quantité ou le moment précis des précipitations.
-            </p>
+
+        <div class="info-note">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                <path d="M12 16v-4M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <p>L'indice de confiance est calculé en fonction de la probabilité de précipitation.</p>
+        </div>
     </div>
 
     <script src="script.js"></script>

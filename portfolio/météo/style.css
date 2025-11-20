@@ -1,4 +1,26 @@
-/* --- Styles Globaux --- */
+/* --- Reset & Variables --- */
+:root {
+    --primary: #6B8DD6;
+    --primary-hover: #5A7BC5;
+    --secondary: #8FA3CC;
+    --background: #F7F9FC;
+    --card-bg: #FFFFFF;
+    --text-primary: #2C3E50;
+    --text-secondary: #64748B;
+    --text-muted: #94A3B8;
+    --border: #E2E8F0;
+    --success: #10B981;
+    --warning: #F59E0B;
+    --error: #EF4444;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.08);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -6,257 +28,645 @@
 }
 
 body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #f0f4f8;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #E8EFF8 0%, #F7F9FC 100%);
+    min-height: 100vh;
+    color: var(--text-primary);
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    color: #333;
-    transition: background-color 0.5s; /* Pour la transition dynamique */
+    padding: 20px;
+    line-height: 1.6;
+    position: relative;
+    overflow: hidden;
 }
 
-/* --- Conteneur Principal (La "Carte") --- */
+/* --- Arrière-plan avec carte du monde --- */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 600'%3E%3Cpath d='M300 100 Q 350 80 400 100 L 420 120 L 400 140 Q 350 160 300 140 Z M 500 200 L 550 180 L 580 200 L 570 230 L 520 240 Z M 700 150 Q 750 130 800 150 L 820 180 L 800 200 Q 750 220 700 200 Z M 200 300 L 250 280 L 280 310 L 260 340 L 210 350 Z M 600 350 Q 650 330 700 350 L 720 380 L 700 410 Q 650 430 600 410 Z M 850 280 L 900 260 L 930 290 L 910 320 L 860 330 Z M 400 400 L 450 380 L 480 410 L 460 440 L 410 450 Z' fill='%236B8DD6' opacity='0.03'/%3E%3C/svg%3E");
+    background-size: cover;
+    background-position: center;
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 0;
+    transition: opacity 0.5s ease;
+}
+
+/* --- Effets météo animés --- */
+.weather-effect {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+/* Effet de pluie */
+.rain-effect {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(transparent 0%, transparent 5%, rgba(107, 141, 214, 0.1) 5%, transparent 5%);
+    background-size: 20px 100px;
+    animation: rain 0.5s linear infinite;
+}
+
+@keyframes rain {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 100px; }
+}
+
+/* Effet de neige */
+.snow-effect {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.snowflake {
+    position: absolute;
+    top: -10px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1em;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh) rotate(360deg);
+    }
+}
+
+/* Effet de nuages */
+.clouds-effect {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.cloud {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 100px;
+    animation: drift linear infinite;
+}
+
+.cloud::before,
+.cloud::after {
+    content: '';
+    position: absolute;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 100px;
+}
+
+@keyframes drift {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100vw); }
+}
+
+/* Effet de soleil */
+.sun-effect {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(255, 223, 0, 0.3) 0%, transparent 70%);
+    border-radius: 50%;
+    top: 10%;
+    right: 10%;
+    animation: pulse 4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.3; }
+    50% { transform: scale(1.1); opacity: 0.5; }
+}
+
+/* Effet d'orage */
+.storm-effect {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    animation: lightning 3s infinite;
+}
+
+@keyframes lightning {
+    0%, 95%, 100% { background: transparent; }
+    96%, 98% { background: rgba(255, 255, 255, 0.1); }
+}
+
+/* --- Bouton Retour --- */
+.back-button {
+    position: fixed;
+    top: 24px;
+    left: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: var(--card-bg);
+    color: var(--text-primary);
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    font-size: 14px;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+    z-index: 1000;
+    border: 1px solid var(--border);
+}
+
+.back-button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    background: var(--primary);
+    color: white;
+}
+
+/* --- Conteneur Principal --- */
 .app-container {
-    background-color: #ffffff;
-    padding: 25px;
-    border-radius: 0;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-    width: 95%;
-    max-width: 500px;
-    text-align: center;
-    transition: background-color 0.5s, color 0.5s;
-    min-height: 100vh;
+    background: var(--card-bg);
+    padding: 32px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    width: 100%;
+    max-width: 480px;
+    transition: var(--transition);
+    position: relative;
+    z-index: 10;
 }
 
-h1 {
-    font-size: 26px;
-    margin-bottom: 20px;
-    color: #1a73e8;
+/* --- Header --- */
+.header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.header h1 {
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-weight: 400;
 }
 
 /* --- Onglets --- */
 .tabs {
     display: flex;
-    justify-content: space-around;
-    margin-bottom: 30px;
+    gap: 8px;
+    margin-bottom: 28px;
+    background: var(--background);
+    padding: 4px;
+    border-radius: var(--radius-md);
 }
 
-.tabs button {
-    padding: 10px 15px;
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 500;
-    border-bottom: 3px solid transparent;
-    color: #777;
-    transition: all 0.2s;
-}
-
-.tabs button.active {
-    color: #1a73e8;
-    border-bottom: 3px solid #1a73e8;
-}
-
-/* --- Recherche et Résultats Comuns --- */
-.search-box {
+.tab-btn {
+    flex: 1;
     display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+    font-family: inherit;
+}
+
+.tab-btn:hover {
+    background: rgba(107, 141, 214, 0.1);
+    color: var(--primary);
+}
+
+.tab-btn.active {
+    background: white;
+    color: var(--primary);
+    box-shadow: var(--shadow-sm);
+}
+
+.tab-btn svg {
+    transition: var(--transition);
+}
+
+/* --- Recherche --- */
+.search-box {
+    position: relative;
+    display: flex;
+    gap: 8px;
     margin-bottom: 20px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    pointer-events: none;
 }
 
 #city-input {
     flex: 1;
-    padding: 10px 12px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 5px 0 0 5px;
+    padding: 14px 14px 14px 44px;
+    font-size: 15px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-md);
     outline: none;
+    background: var(--card-bg);
+    color: var(--text-primary);
+    transition: var(--transition);
+    font-family: inherit;
+}
+
+#city-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(107, 141, 214, 0.1);
+}
+
+#city-input::placeholder {
+    color: var(--text-muted);
 }
 
 #search-button {
-    padding: 10px 15px;
-    font-size: 16px;
-    background-color: #1a73e8;
+    padding: 14px 24px;
+    font-size: 15px;
+    background: var(--primary);
     color: white;
     border: none;
-    border-radius: 0 5px 5px 0;
+    border-radius: var(--radius-md);
     cursor: pointer;
-    transition: background-color 0.2s;
+    font-weight: 500;
+    transition: var(--transition);
+    font-family: inherit;
+    white-space: nowrap;
 }
 
 #search-button:hover {
-    background-color: #1558b0;
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
 }
 
+#search-button:active {
+    transform: translateY(0);
+}
+
+/* --- Messages --- */
+.error-message {
+    color: var(--error);
+    background: rgba(239, 68, 68, 0.1);
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 16px;
+    border-left: 3px solid var(--error);
+}
+
+.error-message:empty {
+    display: none;
+    padding: 0;
+    margin: 0;
+}
+
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 24px;
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--border);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* --- Carte Météo --- */
 .result-card {
-    padding: 15px;
-    border-radius: 8px;
-    border: 1px solid #eee;
+    background: linear-gradient(135deg, var(--background) 0%, white 100%);
+    padding: 24px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    transition: var(--transition);
+}
+
+.result-card h2 {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.weather-main {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.weather-main img {
+    width: 100px;
+    height: 100px;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1));
+}
+
+.weather-info {
+    flex: 1;
 }
 
 .temperature {
-    font-size: 36px;
-    font-weight: 700;
-    margin: 10px 0;
+    font-size: 48px;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1;
+    margin-bottom: 8px;
 }
 
 .description {
-    font-size: 18px;
-    font-style: italic;
+    font-size: 16px;
+    color: var(--text-secondary);
     text-transform: capitalize;
+    font-weight: 400;
 }
 
-.error-message {
-    color: #d93025;
-    margin-bottom: 15px;
-    font-weight: 500;
+/* --- Prévisions --- */
+#forecast-section {
+    margin-top: 32px;
 }
 
-/* --- Prévisions 5 Jours --- */
 #forecast-title {
-    margin-top: 30px;
-    margin-bottom: 15px;
-    font-size: 20px;
-    color: #333;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 16px;
 }
 
 .forecast-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* 5 colonnes sur grand écran, s'adapte sur mobile */
-    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(85px, 1fr));
+    gap: 12px;
 }
 
 .forecast-card {
-    background-color: #f7f7f73d;
-    padding: 10px 5px;
-    border-radius: 8px;
-    font-size: 14px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    background: var(--background);
+    padding: 16px 8px;
+    border-radius: var(--radius-md);
+    text-align: center;
+    border: 1px solid var(--border);
+    transition: var(--transition);
+}
+
+.forecast-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    background: white;
 }
 
 .forecast-card h3 {
-    font-size: 1em;
-    margin-bottom: 5px;
-    color: #555;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    text-transform: capitalize;
 }
 
-.forecast-card .confidence-label {
-    font-size: 0.8em;
-    font-weight: 400;
-}
-.confidence-élevée { color: #28a745; font-weight: bold; }
-.confidence-moyenne { color: #ffc107; font-weight: bold; }
-.confidence-faible { color: #d93025; font-weight: bold; }
-
-/* --- Classes Dynamiques (Style d'arrière-plan) --- */
-
-.weather-clear {
-    background-color: #87ceeb; /* Ciel clair */
-    color: white;
+.forecast-card img {
+    width: 50px;
+    height: 50px;
+    margin: 4px 0;
 }
 
-.weather-clouds {
-    background-color: #b0bec5; /* Nuages gris */
-    color: #212121;
+.forecast-temp {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 8px 0 4px;
 }
 
-.weather-rain, .weather-drizzle {
-    background-color: #546e7a; /* Pluie sombre */
-    color: white;
+.confidence-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 4px;
 }
 
-.weather-storm, .weather-thunderstorm {
-    background-color: #263238; /* Orage/Sombre */
-    color: white;
+.confidence-élevée {
+    color: var(--success);
+    font-weight: 600;
 }
 
-.weather-snow {
-    background-color: #e0f2f1; /* Neige/Très clair */
-    color: #333;
+.confidence-moyenne {
+    color: var(--warning);
+    font-weight: 600;
 }
 
-/* --- Classe Utilitaire --- */
-.hidden {
-    display: none !important; 
+.confidence-faible {
+    color: var(--error);
+    font-weight: 600;
 }
 
-/* style.css (à ajouter à la fin du fichier) */
+/* --- Note Info --- */
+.info-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 28px;
+    padding: 14px;
+    background: rgba(107, 141, 214, 0.05);
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--primary);
+}
 
-/* --- Note explicative --- */
-.explanation-note {
-    font-size: 0.75em; /* Petite taille de police */
-    color: #6c757d; /* Gris pour un ton discret */
-    margin-top: 25px;
-    padding-top: 10px;
-    border-top: 1px solid #ddd; /* Ligne de séparation */
-    text-align: left; /* Aligner le texte à gauche */
+.info-note svg {
+    flex-shrink: 0;
+    color: var(--primary);
+    margin-top: 2px;
+}
+
+.info-note p {
+    font-size: 12px;
+    color: var(--text-secondary);
     line-height: 1.5;
 }
 
-/* style.css */
-
-/* ... (votre code CSS existant) ... */
-
-/* Assurer que la carte s'adapte bien */
-.app-container {
-    /* ... (vos styles existants : max-width: 500px, etc.) ... */
-    width: 95%; /* On donne un peu plus de marge pour le mobile */
-    min-height: 100vh; /* Permet à la carte de prendre toute la hauteur sur mobile */
-    border-radius: 0; /* Optionnel : enlever les coins arrondis pour un look plein écran sur mobile */
+/* --- Styles Dynamiques --- */
+body.weather-clear {
+    background: linear-gradient(135deg, #87CEEB 0%, #E0F6FF 100%);
 }
 
-/* Retirer le centrage vertical forcé du body sur mobile pour éviter les problèmes de clavier */
-@media (max-width: 600px) {
-    body {
-        /* Alignement en haut pour le mobile */
-        align-items: flex-start; 
-        padding: 0; /* Retirer le padding global si la carte est full-width */
-    }
+body.weather-clouds {
+    background: linear-gradient(135deg, #B0BEC5 0%, #ECEFF1 100%);
 }
 
-/* style.css (à ajouter à la fin) */
+body.weather-rain,
+body.weather-drizzle {
+    background: linear-gradient(135deg, #607D8B 0%, #90A4AE 100%);
+}
 
-/* --- Media Query pour les Smartphones (écrans <= 500px) --- */
+body.weather-storm,
+body.weather-thunderstorm {
+    background: linear-gradient(135deg, #37474F 0%, #546E7A 100%);
+}
+
+body.weather-snow {
+    background: linear-gradient(135deg, #E1F5FE 0%, #F0F9FF 100%);
+}
+
+.app-container.weather-clear {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+}
+
+.app-container.weather-clouds {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+}
+
+.app-container.weather-rain,
+.app-container.weather-drizzle {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+}
+
+.app-container.weather-storm,
+.app-container.weather-thunderstorm {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+}
+
+.app-container.weather-snow {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+}
+
+/* --- Utilitaire --- */
+.hidden {
+    display: none !important;
+}
+
+/* --- Responsive --- */
 @media (max-width: 500px) {
+    body {
+        padding: 12px;
+    }
 
-    /* Rendre les onglets plus petits */
-    .tabs button {
-        font-size: 14px;
-        padding: 8px 10px;
+    .app-container {
+        padding: 24px 20px;
     }
-    
-    /* Adapter la grille de prévisions à 3 colonnes maximum */
+
+    .back-button {
+        top: 16px;
+        left: 16px;
+        padding: 8px 16px;
+        font-size: 13px;
+    }
+
+    .header h1 {
+        font-size: 28px;
+    }
+
+    .subtitle {
+        font-size: 13px;
+    }
+
+    .tab-btn {
+        padding: 10px 12px;
+        font-size: 13px;
+        gap: 6px;
+    }
+
+    .tab-btn svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .search-box {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .search-icon {
+        left: 14px;
+    }
+
+    #city-input {
+        padding: 12px 12px 12px 44px;
+    }
+
+    #search-button {
+        width: 100%;
+        padding: 12px;
+    }
+
+    .weather-main {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+    }
+
+    .weather-main img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .temperature {
+        font-size: 40px;
+    }
+
     .forecast-grid {
-        /* minmax(80px, 1fr) est bien, mais on force max 3 colonnes pour ne pas surcharger */
-        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-        gap: 8px; 
+        grid-template-columns: repeat(auto-fit, minmax(75px, 1fr));
+        gap: 10px;
     }
-    
+
     .forecast-card {
-        padding: 8px 4px; /* Réduire le padding interne */
+        padding: 12px 6px;
+    }
+
+    .forecast-card img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .forecast-temp {
+        font-size: 16px;
     }
 }
 
-/* style.css (à ajouter à la fin) */
-
-/* --- Media Query pour les petits Smartphones (écrans <= 380px) --- */
 @media (max-width: 380px) {
-
-    /* Empiler l'input et le bouton */
-    .search-box {
-        flex-direction: column; 
-    }
-    
-    /* Rétablir les coins arrondis complets */
-    #city-input {
-        border-radius: 5px; 
-        margin-bottom: 8px; /* Ajouter de l'espace en bas de l'input */
+    .app-container {
+        padding: 20px 16px;
     }
 
-    /* Rétablir les coins arrondis complets */
-    #search-button {
-        border-radius: 5px; 
-        width: 100%; /* Le bouton prend toute la largeur */
+    .forecast-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 }

@@ -4,107 +4,247 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Calculateurs Pratiques</title>
+    <title>Calculateurs Pratiques - Premium</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
 </head>
 
 <body>
-    <a href="../index.html" style="position: fixed; top: 20px; left: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: bold; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">← Accueil</a>
+    <!-- Particules de fond -->
+    <canvas id="particles"></canvas>
+
+    <!-- Toggle Dark Mode -->
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+        <span class="sun-icon">☀️</span>
+        <span class="moon-icon">🌙</span>
+    </button>
+
+    <a href="../index.html" class="back-button">← Accueil</a>
+
     <div class="container">
+        <!-- Header avec animation -->
+        <div class="header-animated">
+            <h1 class="glitch" data-text="Calculateurs Premium">Calculateurs Premium</h1>
+            <p class="subtitle">Expérience utilisateur nouvelle génération</p>
+        </div>
+
         <div class="tabs">
-            <button class="tab active" onclick="switchTab('pourboire')">💰 Pourboire</button>
-            <button class="tab" onclick="switchTab('imc')">⚖️ IMC</button>
-            <button class="tab" onclick="switchTab('conversion')">🔄 Conversion</button>
+            <button class="tab active" onclick="switchTab('pourboire')" data-tooltip="Calculez vos pourboires facilement">
+                <span class="tab-icon">💰</span>
+                <span class="tab-text">Pourboire</span>
+            </button>
+            <button class="tab" onclick="switchTab('imc')" data-tooltip="Indice de Masse Corporelle">
+                <span class="tab-icon">⚖️</span>
+                <span class="tab-text">IMC</span>
+            </button>
+            <button class="tab" onclick="switchTab('conversion')" data-tooltip="Convertisseur universel">
+                <span class="tab-icon">🔄</span>
+                <span class="tab-text">Conversion</span>
+            </button>
+            <button class="tab" onclick="switchTab('historique')" data-tooltip="Vos derniers calculs">
+                <span class="tab-icon">📊</span>
+                <span class="tab-text">Historique</span>
+            </button>
         </div>
 
         <div class="content">
             <!-- Calculateur de Pourboire -->
             <div id="pourboire" class="calculator active">
-                <h2>Calculateur de Pourboire</h2>
+                <h2>💰 Calculateur de Pourboire</h2>
 
-                <div class="input-group">
+                <div class="input-group floating-label">
+                    <input type="number" id="montant" placeholder=" " step="0.01" min="0" required>
                     <label for="montant">Montant de l'addition (€)</label>
-                    <input type="number" id="montant" placeholder="Ex: 50" step="0.01" min="0">
+                    <span class="input-icon">💶</span>
                 </div>
 
                 <div class="input-group">
                     <label>Pourcentage de pourboire</label>
                     <div class="tip-options">
-                        <button class="tip-btn" onclick="selectTip(10)">10%</button>
-                        <button class="tip-btn selected" onclick="selectTip(15)">15%</button>
-                        <button class="tip-btn" onclick="selectTip(20)">20%</button>
-                        <button class="tip-btn" onclick="selectTip(25)">25%</button>
+                        <button class="tip-btn" onclick="selectTip(10)" data-ripple>
+                            <span class="tip-percent">10%</span>
+                            <span class="tip-emoji">😊</span>
+                        </button>
+                        <button class="tip-btn selected" onclick="selectTip(15)" data-ripple>
+                            <span class="tip-percent">15%</span>
+                            <span class="tip-emoji">😄</span>
+                        </button>
+                        <button class="tip-btn" onclick="selectTip(20)" data-ripple>
+                            <span class="tip-percent">20%</span>
+                            <span class="tip-emoji">🤩</span>
+                        </button>
+                        <button class="tip-btn" onclick="selectTip(25)" data-ripple>
+                            <span class="tip-percent">25%</span>
+                            <span class="tip-emoji">🌟</span>
+                        </button>
                     </div>
                 </div>
 
-                <div class="input-group">
+                <div class="input-group floating-label">
+                    <input type="number" id="custom-tip" placeholder=" " min="0" max="100" step="0.1">
                     <label for="custom-tip">Ou personnalisé (%)</label>
-                    <input type="number" id="custom-tip" placeholder="Ex: 18" min="0" max="100" step="0.1">
+                    <span class="input-icon">✨</span>
                 </div>
 
-                <div class="input-group">
+                <div class="input-group floating-label">
+                    <input type="number" id="personnes" placeholder=" " min="1" value="1" required>
                     <label for="personnes">Nombre de personnes</label>
-                    <input type="number" id="personnes" placeholder="Ex: 4" min="1" value="1">
+                    <span class="input-icon">👥</span>
                 </div>
 
-                <button onclick="calculerPourboire()">Calculer</button>
+                <button class="btn-primary" onclick="calculerPourboire()" data-ripple>
+                    <span class="btn-text">Calculer</span>
+                    <span class="btn-icon">→</span>
+                </button>
 
                 <div id="result-pourboire" class="result">
-                    <div class="result-value" id="total-value">0.00 €</div>
-                    <div class="result-label">Total à payer</div>
+                    <!-- Graphique circulaire -->
+                    <div class="chart-container">
+                        <svg class="donut-chart" viewBox="0 0 200 200">
+                            <circle class="donut-segment donut-base" cx="100" cy="100" r="80" />
+                            <circle class="donut-segment donut-tip" id="tip-circle" cx="100" cy="100" r="80" />
+                            <text class="donut-text" x="100" y="95" text-anchor="middle">
+                                <tspan class="donut-value" id="tip-percent-display">15%</tspan>
+                            </text>
+                            <text class="donut-label" x="100" y="115" text-anchor="middle">pourboire</text>
+                        </svg>
+                    </div>
+
+                    <div class="result-main">
+                        <div class="result-value" id="total-value" data-value="0">0.00 €</div>
+                        <div class="result-label">Total à payer</div>
+                    </div>
+
                     <div class="breakdown">
                         <div class="breakdown-item">
+                            <span class="breakdown-icon">🍽️</span>
                             <span>Addition</span>
                             <strong id="addition-value">0.00 €</strong>
                         </div>
                         <div class="breakdown-item">
+                            <span class="breakdown-icon">💝</span>
                             <span>Pourboire</span>
                             <strong id="tip-value">0.00 €</strong>
                         </div>
                         <div class="breakdown-item">
+                            <span class="breakdown-icon">👤</span>
                             <span>Par personne</span>
                             <strong id="per-person-value">0.00 €</strong>
                         </div>
                     </div>
+
+                    <button class="btn-secondary" onclick="saveCalculation('pourboire')">
+                        💾 Sauvegarder ce calcul
+                    </button>
                 </div>
             </div>
 
             <!-- Calculateur IMC -->
             <div id="imc" class="calculator">
-                <h2>Calculateur d'IMC</h2>
+                <h2>⚖️ Calculateur d'IMC</h2>
 
-                <div class="input-group">
+                <div class="input-group floating-label">
+                    <input type="number" id="poids" placeholder=" " step="0.1" min="0" required>
                     <label for="poids">Poids (kg)</label>
-                    <input type="number" id="poids" placeholder="Ex: 70" step="0.1" min="0">
+                    <span class="input-icon">⚖️</span>
                 </div>
 
-                <div class="input-group">
+                <div class="input-group floating-label">
+                    <input type="number" id="taille" placeholder=" " step="0.1" min="0" required>
                     <label for="taille">Taille (cm)</label>
-                    <input type="number" id="taille" placeholder="Ex: 175" step="0.1" min="0">
+                    <span class="input-icon">📏</span>
                 </div>
 
-                <button onclick="calculerIMC()">Calculer mon IMC</button>
+                <button class="btn-primary" onclick="calculerIMC()" data-ripple>
+                    <span class="btn-text">Calculer mon IMC</span>
+                    <span class="btn-icon">→</span>
+                </button>
 
                 <div id="result-imc" class="result">
-                    <div class="result-value" id="imc-value">0.0</div>
-                    <div class="result-label">Indice de Masse Corporelle</div>
+                    <!-- Jauge circulaire IMC -->
+                    <div class="imc-gauge-container">
+                        <svg class="imc-gauge" viewBox="0 0 220 130">
+                            <!-- Arc de fond gris -->
+                            <path d="M 20 110 A 90 90 0 0 1 200 110" 
+                                  fill="none" 
+                                  stroke="#e9ecef" 
+                                  stroke-width="20" 
+                                  stroke-linecap="round" />
+                            
+                            <!-- Segments colorés (IMC < 18.5 - Insuffisance) -->
+                            <path class="gauge-segment gauge-underweight" 
+                                  d="M 20 110 A 90 90 0 0 1 65 37" 
+                                  fill="none" 
+                                  stroke-width="20" 
+                                  stroke-linecap="round" />
+                            
+                            <!-- Segments colorés (IMC 18.5-25 - Normal) -->
+                            <path class="gauge-segment gauge-normal" 
+                                  d="M 65 37 A 90 90 0 0 1 155 37" 
+                                  fill="none" 
+                                  stroke-width="20" 
+                                  stroke-linecap="round" />
+                            
+                            <!-- Segments colorés (IMC 25-30 - Surpoids) -->
+                            <path class="gauge-segment gauge-overweight" 
+                                  d="M 155 37 A 90 90 0 0 1 185 80" 
+                                  fill="none" 
+                                  stroke-width="20" 
+                                  stroke-linecap="round" />
+                            
+                            <!-- Segments colorés (IMC > 30 - Obésité) -->
+                            <path class="gauge-segment gauge-obese" 
+                                  d="M 185 80 A 90 90 0 0 1 200 110" 
+                                  fill="none" 
+                                  stroke-width="20" 
+                                  stroke-linecap="round" />
+                            
+                            <!-- Aiguille -->
+                            <g id="imc-needle" style="transform-origin: 110px 110px; transform: rotate(-90deg);">
+                                <line x1="110" y1="110" x2="110" y2="35" 
+                                      stroke="#333" 
+                                      stroke-width="4" 
+                                      stroke-linecap="round" />
+                                <circle cx="110" cy="110" r="10" fill="#667eea" stroke="white" stroke-width="3" />
+                            </g>
+                        </svg>
+                        
+                        <div class="gauge-labels">
+                            <span class="gauge-label" style="left: 5%;">18.5</span>
+                            <span class="gauge-label" style="left: 30%;">25</span>
+                            <span class="gauge-label" style="left: 65%;">30</span>
+                            <span class="gauge-label" style="left: 90%;">35+</span>
+                        </div>
+                    </div>
+
+                    <div class="result-main">
+                        <div class="result-value" id="imc-value" data-value="0">0.0</div>
+                        <div class="result-label">Indice de Masse Corporelle</div>
+                    </div>
+
                     <div id="imc-category" class="imc-category"></div>
+
+                    <div class="imc-info">
+                        <p id="imc-description"></p>
+                    </div>
+
+                    <button class="btn-secondary" onclick="saveCalculation('imc')">
+                        💾 Sauvegarder ce calcul
+                    </button>
                 </div>
             </div>
 
             <!-- Convertisseur d'Unités -->
             <div id="conversion" class="calculator">
-                <h2>Convertisseur d'Unités</h2>
+                <h2>🔄 Convertisseur d'Unités</h2>
 
                 <div class="input-group">
                     <label for="type-conversion">Type de conversion</label>
                     <select id="type-conversion" onchange="updateUnits()">
-                        <option value="longueur">Longueur</option>
-                        <option value="poids">Poids</option>
-                        <option value="temperature">Température</option>
-                        <option value="volume">Volume</option>
+                        <option value="longueur">📏 Longueur</option>
+                        <option value="poids">⚖️ Poids</option>
+                        <option value="temperature">🌡️ Température</option>
+                        <option value="volume">🧪 Volume</option>
                     </select>
                 </div>
 
@@ -114,7 +254,9 @@
                         <select id="unite-source" onchange="convertir()"></select>
                     </div>
 
-                    <button class="swap-btn" onclick="inverserUnites()">⇄</button>
+                    <button class="swap-btn" onclick="inverserUnites()" data-ripple>
+                        <span class="swap-icon">⇄</span>
+                    </button>
 
                     <div class="input-group">
                         <label for="unite-cible">Vers</label>
@@ -122,18 +264,61 @@
                     </div>
                 </div>
 
-                <div class="input-group">
+                <div class="input-group floating-label">
+                    <input type="number" id="valeur-source" placeholder=" " step="any" oninput="convertir()">
                     <label for="valeur-source">Valeur</label>
-                    <input type="number" id="valeur-source" placeholder="Ex: 100" step="any" oninput="convertir()">
+                    <span class="input-icon">🔢</span>
                 </div>
 
                 <div id="result-conversion" class="result">
-                    <div class="result-value" id="valeur-cible">0</div>
-                    <div class="result-label" id="conversion-label"></div>
+                    <!-- Animation de conversion -->
+                    <div class="conversion-animation">
+                        <div class="conversion-flow">
+                            <span id="source-display">0</span>
+                            <span class="flow-arrow">→</span>
+                            <span id="target-display">0</span>
+                        </div>
+                    </div>
+
+                    <div class="result-main">
+                        <div class="result-value" id="valeur-cible" data-value="0">0</div>
+                        <div class="result-label" id="conversion-label"></div>
+                    </div>
+
+                    <button class="btn-secondary" onclick="saveCalculation('conversion')">
+                        💾 Sauvegarder ce calcul
+                    </button>
+                </div>
+            </div>
+
+            <!-- Historique -->
+            <div id="historique" class="calculator">
+                <h2>📊 Historique des Calculs</h2>
+                
+                <div class="history-controls">
+                    <button class="btn-secondary" onclick="clearHistory()">
+                        🗑️ Effacer l'historique
+                    </button>
+                </div>
+
+                <div id="history-list" class="history-list">
+                    <div class="empty-state">
+                        <div class="empty-icon">📭</div>
+                        <p>Aucun calcul enregistré</p>
+                        <small>Vos calculs sauvegardés apparaîtront ici</small>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>✨ Version Premium - Expérience améliorée</p>
+        </div>
     </div>
+
+    <!-- Notifications Toast -->
+    <div id="toast-container"></div>
 </body>
 
 </html>
