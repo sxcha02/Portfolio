@@ -12,9 +12,64 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f0f1e;
             min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Gradient animé en arrière-plan */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Particules flottantes subtiles */
+        .particle {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            animation: float linear infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 2;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -24,98 +79,269 @@
         header {
             text-align: center;
             color: white;
-            margin: 40px 0;
+            margin: 60px 0 40px;
             animation: fadeInDown 0.8s ease;
         }
 
         header h1 {
-            font-size: 3em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-size: 3.5em;
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            background: linear-gradient(to right, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .emoji-icon {
+            display: inline-block;
+            animation: bounce 2s ease-in-out infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         header p {
-            font-size: 1.2em;
-            opacity: 0.9;
+            font-size: 1.3em;
+            opacity: 0.95;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: fadeIn 1s ease 0.3s both;
+        }
+
+        .filter-btn {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            color: white;
+            cursor: none;
+            transition: all 0.3s ease;
+            font-size: 0.95em;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        .filter-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .filter-btn.active {
+            background: rgba(255, 255, 255, 0.95);
+            color: #667eea;
+            box-shadow: 0 8px 25px rgba(255,255,255,0.3);
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1300px;
             width: 100%;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 35px;
             padding: 20px;
         }
 
         .project-card {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            animation: fadeInUp 0.8s ease;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            padding: 35px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeInUp 0.6s ease backwards;
             text-decoration: none;
             color: inherit;
             display: block;
+            position: relative;
+            overflow: hidden;
+            cursor: none;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.15), transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
         }
 
         .project-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            transform: translateY(-8px) scale(1.02);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+
+        .project-card:nth-child(1) { animation-delay: 0.1s; }
+        .project-card:nth-child(2) { animation-delay: 0.2s; }
+        .project-card:nth-child(3) { animation-delay: 0.3s; }
+        .project-card:nth-child(4) { animation-delay: 0.4s; }
+        .project-card:nth-child(5) { animation-delay: 0.5s; }
+        .project-card:nth-child(6) { animation-delay: 0.6s; }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
         }
 
         .project-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.05));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2em;
-            margin-bottom: 20px;
-            color: white;
+            font-size: 2.2em;
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover .project-icon {
+            transform: rotate(5deg) scale(1.1);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .status-badge {
+            padding: 6px 14px;
+            background: rgba(76, 217, 100, 0.2);
+            border: 1px solid rgba(76, 217, 100, 0.4);
+            color: #4cd964;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            backdrop-filter: blur(10px);
+        }
+
+        .status-badge.in-progress {
+            background: rgba(255, 204, 0, 0.2);
+            border-color: rgba(255, 204, 0, 0.4);
+            color: #ffcc00;
         }
 
         .project-card h2 {
-            font-size: 1.8em;
+            font-size: 1.9em;
             margin-bottom: 15px;
-            color: #333;
+            color: white;
+            font-weight: 600;
+            letter-spacing: -0.5px;
         }
 
         .project-card p {
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.7;
+            margin-bottom: 25px;
+            font-size: 1em;
+            font-weight: 300;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 25px;
+        }
+
+        .tech-tag {
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            font-size: 0.8em;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .tech-tag:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .project-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
         }
 
         .project-link {
-            display: inline-block;
-            padding: 10px 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             color: white;
-            border-radius: 25px;
+            border-radius: 30px;
             text-decoration: none;
-            font-weight: bold;
-            transition: opacity 0.3s ease;
+            font-weight: 600;
+            font-size: 0.95em;
+            transition: all 0.3s ease;
+            letter-spacing: 0.3px;
+            cursor: none;
         }
 
         .project-link:hover {
-            opacity: 0.8;
+            background: rgba(255, 255, 255, 0.95);
+            color: #667eea;
+            transform: translateX(5px);
+            box-shadow: 0 8px 20px rgba(255,255,255,0.3);
+        }
+
+        .arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .project-link:hover .arrow {
+            transform: translateX(5px);
         }
 
         footer {
-            margin-top: 50px;
-            color: white;
+            margin-top: 80px;
+            margin-bottom: 40px;
+            color: rgba(255, 255, 255, 0.7);
             text-align: center;
-            opacity: 0.8;
+            font-weight: 300;
+            letter-spacing: 0.5px;
         }
 
         @keyframes fadeInDown {
             from {
                 opacity: 0;
-                transform: translateY(-30px);
+                transform: translateY(-40px);
             }
             to {
                 opacity: 1;
@@ -126,7 +352,7 @@
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(40px);
             }
             to {
                 opacity: 1;
@@ -134,76 +360,423 @@
             }
         }
 
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
         @media (max-width: 768px) {
+            body {
+                cursor: auto;
+                padding: 10px;
+            }
+
+            .custom-cursor {
+                display: none;
+            }
+
+            header {
+                margin: 30px 0 30px;
+            }
+
             header h1 {
-                font-size: 2em;
+                font-size: 2.2em;
+                letter-spacing: -0.5px;
+            }
+
+            header p {
+                font-size: 1em;
+                padding: 0 20px;
+            }
+
+            .filter-tabs {
+                gap: 10px;
+                padding: 0 10px;
+                margin-bottom: 30px;
+            }
+
+            .filter-btn {
+                padding: 10px 18px;
+                font-size: 0.85em;
+                cursor: pointer;
             }
 
             .container {
                 grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 10px;
             }
+
+            .project-card {
+                padding: 25px;
+                border-radius: 20px;
+                cursor: pointer;
+            }
+
+            .project-card:hover {
+                transform: none;
+            }
+
+            .project-card:active {
+                transform: scale(0.98);
+            }
+
+            .project-header {
+                margin-bottom: 18px;
+            }
+
+            .project-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.8em;
+            }
+
+            .project-card h2 {
+                font-size: 1.6em;
+            }
+
+            .project-card p {
+                font-size: 0.95em;
+                margin-bottom: 20px;
+            }
+
+            .tech-tags {
+                gap: 6px;
+                margin-bottom: 20px;
+            }
+
+            .tech-tag {
+                font-size: 0.75em;
+                padding: 5px 10px;
+            }
+
+            .project-link {
+                padding: 10px 20px;
+                font-size: 0.9em;
+                cursor: pointer;
+            }
+
+            .status-badge {
+                font-size: 0.7em;
+                padding: 5px 12px;
+            }
+
+            footer {
+                margin-top: 60px;
+                margin-bottom: 30px;
+                font-size: 0.9em;
+                padding: 0 20px;
+            }
+
+            /* Réduction des particules sur mobile pour les performances */
+            .particle {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            header p {
+                font-size: 0.95em;
+            }
+
+            .filter-tabs {
+                gap: 8px;
+            }
+
+            .filter-btn {
+                padding: 8px 14px;
+                font-size: 0.8em;
+            }
+
+            .project-card {
+                padding: 20px;
+            }
+
+            .project-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.6em;
+            }
+
+            .project-card h2 {
+                font-size: 1.4em;
+            }
+        }
+
+        /* Curseur personnalisé subtil */
+        body {
+            cursor: none;
+        }
+
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.15s ease, border-color 0.15s ease;
+            mix-blend-mode: difference;
+        }
+
+        .custom-cursor.hover {
+            transform: scale(1.5);
+            border-color: rgba(255, 255, 255, 0.9);
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>🚀 Mes Projets</h1>
-        <p>Découvrez mon portfolio de créations web</p>
-    </header>
+    <!-- Gradient animé -->
+    <div class="animated-bg"></div>
 
-    <div class="container">
-        <!-- Projet 1 -->
-        <div class="project-card">
-            <div class="project-icon">🎨</div>
-            <h2>Calculateur</h2>
-            <p>Application permettant de calculer un pourboire, l'IMC et convertir des unités </p>
-            <a href="calculateur/index.html" class="project-link">Voir le projet →</a>
+    <!-- Particules -->
+    <div id="particles"></div>
+
+    <!-- Curseur personnalisé -->
+    <div class="custom-cursor"></div>
+
+    <div class="content-wrapper">
+        <header>
+            <h1><span class="emoji-icon">🚀</span> Mes Projets</h1>
+            <p>Découvrez mon portfolio de créations web</p>
+        </header>
+
+        <div class="filter-tabs">
+            <button class="filter-btn active" data-filter="all">Tous les projets</button>
+            <button class="filter-btn" data-filter="app">Applications</button>
+            <button class="filter-btn" data-filter="web">Sites Web</button>
+            <button class="filter-btn" data-filter="tool">Outils</button>
         </div>
 
-        <!-- Projet 2 -->
-        <div class="project-card">
-            <div class="project-icon">💼</div>
-            <h2>Météo</h2>
-            <p>Application affichant la météo d'un lieu recherché ou à partir de notre position en temps réel</p>
-            <a href="météo/index.html" class="project-link">Voir le projet →</a>
+        <div class="container">
+            <!-- Projet 1 -->
+            <div class="project-card" data-category="app tool">
+                <div class="project-header">
+                    <div class="project-icon">🎨</div>
+                    <span class="status-badge">Terminé</span>
+                </div>
+                <h2>Calculateur</h2>
+                <p>Application permettant de calculer un pourboire, l'IMC et convertir des unités</p>
+                <div class="tech-tags">
+                    <span class="tech-tag">JavaScript</span>
+                    <span class="tech-tag">HTML/CSS</span>
+                    <span class="tech-tag">Responsive</span>
+                </div>
+                <div class="project-footer">
+                    <a href="calculateur/index.html" class="project-link">
+                        Voir le projet
+                        <span class="arrow">→</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Projet 2 -->
+            <div class="project-card" data-category="app">
+                <div class="project-header">
+                    <div class="project-icon">💼</div>
+                    <span class="status-badge">Terminé</span>
+                </div>
+                <h2>Météo</h2>
+                <p>Application affichant la météo d'un lieu recherché ou à partir de notre position en temps réel</p>
+                <div class="tech-tags">
+                    <span class="tech-tag">API REST</span>
+                    <span class="tech-tag">Géolocalisation</span>
+                    <span class="tech-tag">JavaScript</span>
+                </div>
+                <div class="project-footer">
+                    <a href="météo/index.html" class="project-link">
+                        Voir le projet
+                        <span class="arrow">→</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Projet 3 -->
+            <div class="project-card" data-category="web">
+                <div class="project-header">
+                    <div class="project-icon">🎯</div>
+                    <span class="status-badge">Terminé</span>
+                </div>
+                <h2>CV</h2>
+                <p>Mon CV interactif présentant mon parcours, mes compétences et mes expériences professionnelles</p>
+                <div class="tech-tags">
+                    <span class="tech-tag">HTML/CSS</span>
+                    <span class="tech-tag">Design</span>
+                    <span class="tech-tag">Print-ready</span>
+                </div>
+                <div class="project-footer">
+                    <a href="CV/index.html" class="project-link">
+                        Voir le projet
+                        <span class="arrow">→</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Projet 4 -->
+            <div class="project-card" data-category="tool web">
+                <div class="project-header">
+                    <div class="project-icon">🌟</div>
+                    <span class="status-badge">Terminé</span>
+                </div>
+                <h2>Random Wiki</h2>
+                <p>Site simple redirigeant vers une page aléatoire sur Wikipédia pour découvrir de nouveaux sujets</p>
+                <div class="tech-tags">
+                    <span class="tech-tag">JavaScript</span>
+                    <span class="tech-tag">Wikipedia API</span>
+                    <span class="tech-tag">Minimal</span>
+                </div>
+                <div class="project-footer">
+                    <a href="random_wiki/index.html" class="project-link">
+                        Voir le projet
+                        <span class="arrow">→</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Projet 5 -->
+            <div class="project-card" data-category="app">
+                <div class="project-header">
+                    <div class="project-icon">🔥</div>
+                    <span class="status-badge in-progress">En cours</span>
+                </div>
+                <h2>Projet 5</h2>
+                <p>Description de votre cinquième projet. Détaillez les compétences développées durant sa réalisation.</p>
+                <div class="tech-tags">
+                    <span class="tech-tag">React</span>
+                    <span class="tech-tag">Node.js</span>
+                    <span class="tech-tag">MongoDB</span>
+                </div>
+                <div class="project-footer">
+                    <a href="projet5/index.html" class="project-link">
+                        Voir le projet
+                        <span class="arrow">→</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Projet 6 -->
+            <div class="project-card" data-category="web">
+                <div class="project-header">
+                    <div class="project-icon">⚡</div>
+                    <span class="status-badge in-progress">En cours</span>
+                </div>
+                <h2>Projet 6</h2>
+                <p>Description de votre sixième projet. Montrez les résultats obtenus et l'impact du projet.</p>
+                <div class="tech-tags">
+                    <span class="tech-tag">Vue.js</span>
+                    <span class="tech-tag">TypeScript</span>
+                    <span class="tech-tag">Firebase</span>
+                </div>
+                <div class="project-footer">
+                    <a href="projet6/index.html" class="project-link">
+                        Voir le projet
+                        <span class="arrow">→</span>
+                    </a>
+                </div>
+            </div>
         </div>
 
-        <!-- Projet 3 -->
-        <div class="project-card">
-            <div class="project-icon">🎯</div>
-            <h2>CV</h2>
-            <p>Mon CV</p>
-            <a href="CV/index.html" class="project-link">Voir le projet →</a>
-        </div>
-
-        <!-- Projet 4 -->
-        <div class="project-card">
-            <div class="project-icon">🌟</div>
-            <h2>Random Wiki
-            </h2>
-            <p>Site simple redigirant vers une page aléatoire sur Wikipédia</p>
-            <a href="random_wiki/index.html" class="project-link">Voir le projet →</a>
-        </div>
-
-        <!-- Projet 5 -->
-        <div class="project-card">
-            <div class="project-icon">🔥</div>
-            <h2>Projet 5</h2>
-            <p>Description de votre cinquième projet. Détaillez les compétences développées durant sa réalisation.</p>
-            <a href="projet5/index.html" class="project-link">Voir le projet →</a>
-        </div>
-
-        <!-- Projet 6 -->
-        <div class="project-card">
-            <div class="project-icon">⚡</div>
-            <h2>Projet 6</h2>
-            <p>Description de votre sixième projet. Montrez les résultats obtenus et l'impact du projet.</p>
-            <a href="projet6/index.html" class="project-link">Voir le projet →</a>
-        </div>
+        <footer>
+            <p>&copy; 2024 - Mon Portfolio | Tous droits réservés</p>
+        </footer>
     </div>
 
-    <footer>
-        <p>&copy; 2024 - Mon Portfolio | Tous droits réservés</p>
-    </footer>
+    <script>
+        // Détection mobile
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+
+        // Création des particules flottantes (désactivées sur mobile)
+        if (!isMobile) {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Effet de lumière qui suit la souris sur les cartes
+        const cards = document.querySelectorAll('.project-card');
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 100;
+                const y = ((e.clientY - rect.top) / rect.height) * 100;
+                card.style.setProperty('--x', x + '%');
+                card.style.setProperty('--y', y + '%');
+            });
+        });
+
+        // Filtrage des projets
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const projectCards = document.querySelectorAll('.project-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const filter = btn.dataset.filter;
+                
+                // Mise à jour du bouton actif
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Filtrage des cartes
+                projectCards.forEach(card => {
+                    if (filter === 'all' || card.dataset.category.includes(filter)) {
+                        card.style.display = 'block';
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 10);
+                    } else {
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            card.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        });
+
+        // Curseur personnalisé (uniquement sur desktop)
+        if (!isMobile) {
+            const cursor = document.querySelector('.custom-cursor');
+            const interactiveElements = document.querySelectorAll('a, button, .project-card');
+
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX - 10 + 'px';
+                cursor.style.top = e.clientY - 10 + 'px';
+            });
+
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+            });
+        }
+
+        // Animation au scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        projectCards.forEach(card => observer.observe(card));
+    </script>
 </body>
 </html>
