@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mes Projets - Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin: 40px 0;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 20px;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 0.8s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .project-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .project-card h2 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .project-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .project-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-link:hover {
+            opacity: 0.8;
+        }
+
+        footer {
+            margin-top: 50px;
+            color: white;
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🚀 Mes Projets</h1>
+        <p>Découvrez mon portfolio de créations web</p>
+    </header>
+
+    <div class="container">
+        <!-- Projet 1 -->
+        <div class="project-card">
+            <div class="project-icon">🎨</div>
+            <h2>Calculateur</h2>
+            <p>Description de votre premier projet. Expliquez brièvement ce qu'il fait et ses fonctionnalités principales.</p>
+            <a href="calculateur/index.html" class="project-link">Voir le projet →</a>
+        </div>
+
+        <!-- Projet 2 -->
+        <div class="project-card">
+            <div class="project-icon">💼</div>
+            <h2>Météo</h2>
+            <p>Description de votre deuxième projet. Mettez en avant les technologies utilisées et l'objectif du projet.</p>
+            <a href="météo/index.html" class="project-link">Voir le projet →</a>
+        </div>
+
+        <!-- Projet 3 -->
+        <div class="project-card">
+            <div class="project-icon">🎯</div>
+            <h2>CV</h2>
+            <p>Description de votre troisième projet. Expliquez ce qui rend ce projet unique et intéressant.</p>
+            <a href="CV/index.html" class="project-link">Voir le projet →</a>
+        </div>
+
+        <!-- Projet 4 -->
+        <div class="project-card">
+            <div class="project-icon">🌟</div>
+            <h2>Random Wiki
+            </h2>
+            <p>Description de votre quatrième projet. Partagez les défis relevés et les solutions apportées.</p>
+            <a href="random_wiki/index.html" class="project-link">Voir le projet →</a>
+        </div>
+
+        <!-- Projet 5 -->
+        <div class="project-card">
+            <div class="project-icon">🔥</div>
+            <h2>Projet 5</h2>
+            <p>Description de votre cinquième projet. Détaillez les compétences développées durant sa réalisation.</p>
+            <a href="projet5/index.html" class="project-link">Voir le projet →</a>
+        </div>
+
+        <!-- Projet 6 -->
+        <div class="project-card">
+            <div class="project-icon">⚡</div>
+            <h2>Projet 6</h2>
+            <p>Description de votre sixième projet. Montrez les résultats obtenus et l'impact du projet.</p>
+            <a href="projet6/index.html" class="project-link">Voir le projet →</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 - Mon Portfolio | Tous droits réservés</p>
+    </footer>
+</body>
+</html>

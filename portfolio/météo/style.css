@@ -1,0 +1,262 @@
+/* --- Styles Globaux --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f4f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #333;
+    transition: background-color 0.5s; /* Pour la transition dynamique */
+}
+
+/* --- Conteneur Principal (La "Carte") --- */
+.app-container {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 0;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    width: 95%;
+    max-width: 500px;
+    text-align: center;
+    transition: background-color 0.5s, color 0.5s;
+    min-height: 100vh;
+}
+
+h1 {
+    font-size: 26px;
+    margin-bottom: 20px;
+    color: #1a73e8;
+}
+
+/* --- Onglets --- */
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 30px;
+}
+
+.tabs button {
+    padding: 10px 15px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    border-bottom: 3px solid transparent;
+    color: #777;
+    transition: all 0.2s;
+}
+
+.tabs button.active {
+    color: #1a73e8;
+    border-bottom: 3px solid #1a73e8;
+}
+
+/* --- Recherche et Résultats Comuns --- */
+.search-box {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+#city-input {
+    flex: 1;
+    padding: 10px 12px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+}
+
+#search-button {
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#search-button:hover {
+    background-color: #1558b0;
+}
+
+.result-card {
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+.temperature {
+    font-size: 36px;
+    font-weight: 700;
+    margin: 10px 0;
+}
+
+.description {
+    font-size: 18px;
+    font-style: italic;
+    text-transform: capitalize;
+}
+
+.error-message {
+    color: #d93025;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+/* --- Prévisions 5 Jours --- */
+#forecast-title {
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-size: 20px;
+    color: #333;
+}
+
+.forecast-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* 5 colonnes sur grand écran, s'adapte sur mobile */
+    gap: 10px;
+}
+
+.forecast-card {
+    background-color: #f7f7f73d;
+    padding: 10px 5px;
+    border-radius: 8px;
+    font-size: 14px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.forecast-card h3 {
+    font-size: 1em;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.forecast-card .confidence-label {
+    font-size: 0.8em;
+    font-weight: 400;
+}
+.confidence-élevée { color: #28a745; font-weight: bold; }
+.confidence-moyenne { color: #ffc107; font-weight: bold; }
+.confidence-faible { color: #d93025; font-weight: bold; }
+
+/* --- Classes Dynamiques (Style d'arrière-plan) --- */
+
+.weather-clear {
+    background-color: #87ceeb; /* Ciel clair */
+    color: white;
+}
+
+.weather-clouds {
+    background-color: #b0bec5; /* Nuages gris */
+    color: #212121;
+}
+
+.weather-rain, .weather-drizzle {
+    background-color: #546e7a; /* Pluie sombre */
+    color: white;
+}
+
+.weather-storm, .weather-thunderstorm {
+    background-color: #263238; /* Orage/Sombre */
+    color: white;
+}
+
+.weather-snow {
+    background-color: #e0f2f1; /* Neige/Très clair */
+    color: #333;
+}
+
+/* --- Classe Utilitaire --- */
+.hidden {
+    display: none !important; 
+}
+
+/* style.css (à ajouter à la fin du fichier) */
+
+/* --- Note explicative --- */
+.explanation-note {
+    font-size: 0.75em; /* Petite taille de police */
+    color: #6c757d; /* Gris pour un ton discret */
+    margin-top: 25px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd; /* Ligne de séparation */
+    text-align: left; /* Aligner le texte à gauche */
+    line-height: 1.5;
+}
+
+/* style.css */
+
+/* ... (votre code CSS existant) ... */
+
+/* Assurer que la carte s'adapte bien */
+.app-container {
+    /* ... (vos styles existants : max-width: 500px, etc.) ... */
+    width: 95%; /* On donne un peu plus de marge pour le mobile */
+    min-height: 100vh; /* Permet à la carte de prendre toute la hauteur sur mobile */
+    border-radius: 0; /* Optionnel : enlever les coins arrondis pour un look plein écran sur mobile */
+}
+
+/* Retirer le centrage vertical forcé du body sur mobile pour éviter les problèmes de clavier */
+@media (max-width: 600px) {
+    body {
+        /* Alignement en haut pour le mobile */
+        align-items: flex-start; 
+        padding: 0; /* Retirer le padding global si la carte est full-width */
+    }
+}
+
+/* style.css (à ajouter à la fin) */
+
+/* --- Media Query pour les Smartphones (écrans <= 500px) --- */
+@media (max-width: 500px) {
+
+    /* Rendre les onglets plus petits */
+    .tabs button {
+        font-size: 14px;
+        padding: 8px 10px;
+    }
+    
+    /* Adapter la grille de prévisions à 3 colonnes maximum */
+    .forecast-grid {
+        /* minmax(80px, 1fr) est bien, mais on force max 3 colonnes pour ne pas surcharger */
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 8px; 
+    }
+    
+    .forecast-card {
+        padding: 8px 4px; /* Réduire le padding interne */
+    }
+}
+
+/* style.css (à ajouter à la fin) */
+
+/* --- Media Query pour les petits Smartphones (écrans <= 380px) --- */
+@media (max-width: 380px) {
+
+    /* Empiler l'input et le bouton */
+    .search-box {
+        flex-direction: column; 
+    }
+    
+    /* Rétablir les coins arrondis complets */
+    #city-input {
+        border-radius: 5px; 
+        margin-bottom: 8px; /* Ajouter de l'espace en bas de l'input */
+    }
+
+    /* Rétablir les coins arrondis complets */
+    #search-button {
+        border-radius: 5px; 
+        width: 100%; /* Le bouton prend toute la largeur */
+    }
+}

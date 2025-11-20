@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de Site Web Aléatoire</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #e6f7ff; /* Fond bleu clair */
+        }
+
+        #generateButton {
+            padding: 15px 30px;
+            font-size: 20px;
+            cursor: pointer;
+            background-color: #17a2b8; /* Bleu Wikipédia */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        #generateButton:hover {
+            background-color: #138496;
+            transform: translateY(-2px);
+        }
+
+        p {
+            margin-top: 25px;
+            font-size: 1.1em;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Visiter un Site Web Aléatoire</h1>
+    <p>Cliquez pour être redirigé vers un article Wikipédia complètement aléatoire.</p>
+
+    <button id="generateButton">Aller à un Article Aléatoire</button>
+
+    <script>
+        function redirectToRandomWebsite() {
+            // C'est l'URL spéciale de Wikipédia qui effectue une redirection vers un article au hasard.
+            const randomWikiUrl = "https://fr.wikipedia.org/wiki/Spécial:Page_au_hasard";
+            
+            // Redirige la page actuelle vers l'URL aléatoire.
+            window.location.href = randomWikiUrl;
+        }
+
+        // 2. Attacher la fonction au bouton
+        const button = document.getElementById('generateButton');
+        button.addEventListener('click', redirectToRandomWebsite);
+    </script>
+</body>
+</html>

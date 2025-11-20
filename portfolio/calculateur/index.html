@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Calculateurs Pratiques</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('pourboire')">💰 Pourboire</button>
+            <button class="tab" onclick="switchTab('imc')">⚖️ IMC</button>
+            <button class="tab" onclick="switchTab('conversion')">🔄 Conversion</button>
+        </div>
+
+        <div class="content">
+            <!-- Calculateur de Pourboire -->
+            <div id="pourboire" class="calculator active">
+                <h2>Calculateur de Pourboire</h2>
+
+                <div class="input-group">
+                    <label for="montant">Montant de l'addition (€)</label>
+                    <input type="number" id="montant" placeholder="Ex: 50" step="0.01" min="0">
+                </div>
+
+                <div class="input-group">
+                    <label>Pourcentage de pourboire</label>
+                    <div class="tip-options">
+                        <button class="tip-btn" onclick="selectTip(10)">10%</button>
+                        <button class="tip-btn selected" onclick="selectTip(15)">15%</button>
+                        <button class="tip-btn" onclick="selectTip(20)">20%</button>
+                        <button class="tip-btn" onclick="selectTip(25)">25%</button>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="custom-tip">Ou personnalisé (%)</label>
+                    <input type="number" id="custom-tip" placeholder="Ex: 18" min="0" max="100" step="0.1">
+                </div>
+
+                <div class="input-group">
+                    <label for="personnes">Nombre de personnes</label>
+                    <input type="number" id="personnes" placeholder="Ex: 4" min="1" value="1">
+                </div>
+
+                <button onclick="calculerPourboire()">Calculer</button>
+
+                <div id="result-pourboire" class="result">
+                    <div class="result-value" id="total-value">0.00 €</div>
+                    <div class="result-label">Total à payer</div>
+                    <div class="breakdown">
+                        <div class="breakdown-item">
+                            <span>Addition</span>
+                            <strong id="addition-value">0.00 €</strong>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Pourboire</span>
+                            <strong id="tip-value">0.00 €</strong>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Par personne</span>
+                            <strong id="per-person-value">0.00 €</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calculateur IMC -->
+            <div id="imc" class="calculator">
+                <h2>Calculateur d'IMC</h2>
+
+                <div class="input-group">
+                    <label for="poids">Poids (kg)</label>
+                    <input type="number" id="poids" placeholder="Ex: 70" step="0.1" min="0">
+                </div>
+
+                <div class="input-group">
+                    <label for="taille">Taille (cm)</label>
+                    <input type="number" id="taille" placeholder="Ex: 175" step="0.1" min="0">
+                </div>
+
+                <button onclick="calculerIMC()">Calculer mon IMC</button>
+
+                <div id="result-imc" class="result">
+                    <div class="result-value" id="imc-value">0.0</div>
+                    <div class="result-label">Indice de Masse Corporelle</div>
+                    <div id="imc-category" class="imc-category"></div>
+                </div>
+            </div>
+
+            <!-- Convertisseur d'Unités -->
+            <div id="conversion" class="calculator">
+                <h2>Convertisseur d'Unités</h2>
+
+                <div class="input-group">
+                    <label for="type-conversion">Type de conversion</label>
+                    <select id="type-conversion" onchange="updateUnits()">
+                        <option value="longueur">Longueur</option>
+                        <option value="poids">Poids</option>
+                        <option value="temperature">Température</option>
+                        <option value="volume">Volume</option>
+                    </select>
+                </div>
+
+                <div class="conversion-row">
+                    <div class="input-group">
+                        <label for="unite-source">De</label>
+                        <select id="unite-source" onchange="convertir()"></select>
+                    </div>
+
+                    <button class="swap-btn" onclick="inverserUnites()">⇄</button>
+
+                    <div class="input-group">
+                        <label for="unite-cible">Vers</label>
+                        <select id="unite-cible" onchange="convertir()"></select>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="valeur-source">Valeur</label>
+                    <input type="number" id="valeur-source" placeholder="Ex: 100" step="any" oninput="convertir()">
+                </div>
+
+                <div id="result-conversion" class="result">
+                    <div class="result-value" id="valeur-cible">0</div>
+                    <div class="result-label" id="conversion-label"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

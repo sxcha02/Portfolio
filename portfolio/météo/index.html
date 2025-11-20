@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Météo Avancée (Projet École)</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div id="app-container" class="app-container">
+        <h1>☀️ Météo Avancée</h1>
+
+        <div class="tabs">
+            <button id="tab-search" class="active">Recherche par Ville</button>
+            <button id="tab-geo">Météo Actuelle & 5 Jours</button>
+        </div>
+
+        <div id="view-search">
+            <div class="search-box">
+                <input type="text" id="city-input" placeholder="Entrez une ville...">
+                <button id="search-button">Rechercher</button>
+            </div>
+            
+            <p id="error-message-search" class="error-message"></p>
+
+            <div id="weather-result-search" class="result-card hidden">
+                <h2 id="city-name-search"></h2>
+                <img id="weather-icon-search" src="" alt="Icône météo">
+                <p id="temperature-search" class="temperature"></p>
+                <p id="description-search" class="description"></p>
+            </div>
+        </div>
+
+        <div id="view-geo" class="hidden">
+            <p id="loading-message">Chargement de la météo...</p>
+            <p id="error-message-geo" class="error-message"></p>
+
+            <h2 id="geo-city-name"></h2>
+            
+            <div id="current-weather-geo" class="result-card hidden">
+                <img id="weather-icon-geo" src="" alt="Icône météo">
+                <p id="temperature-geo" class="temperature"></p>
+                <p id="description-geo" class="description"></p>
+            </div>
+
+            <h3 id="forecast-title" class="hidden">Prévisions à 5 Jours (12h00)</h3>
+            <div id="forecast-5-days" class="forecast-grid">
+                </div>
+        </div>
+        <p class="explanation-note">
+                **Note sur l'Indice de Confiance :** Cet indice est **simulé** pour les besoins du projet. Il est calculé en fonction de la **Probabilité de Précipitation (PoP)** fournie par l'API : plus le risque de pluie est élevé, plus l'indice est jugé "Moyen" ou "Faible", traduisant l'incertitude sur la quantité ou le moment précis des précipitations.
+            </p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
