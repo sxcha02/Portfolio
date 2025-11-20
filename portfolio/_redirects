@@ -1,0 +1,10 @@
+# Redirections pour les URLs propres
+
+# Redirections vers les projets
+/calculateur   /calculateur/index.html   200
+/meteo         /météo/index.html         200
+/cv            /CV/index.html            200
+/wiki          /random_wiki/index.html   200
+
+# Gestion des erreurs 404 - redirection vers la page d'accueil
+/* /index.html 404
